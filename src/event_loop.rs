@@ -90,9 +90,8 @@ impl event::Notify for Notifier {
         if bytes.len() == 0 {
             return
         }
-        match self.0.send(Msg::Input(bytes)) {
-            Ok(_) => (),
-            Err(_) => panic!("expected send event loop msg"),
+        if self.0.send(Msg::Input(bytes)).is_err() {
+            panic!("expected send event loop msg");
         }
     }
 }
@@ -180,12 +179,12 @@ impl<Io> EventLoop<Io>
         let (tx, rx) = channel::channel();
         EventLoop {
             poll: mio::Poll::new().expect("create mio Poll"),
-            pty: pty,
-            tx: tx,
-            rx: rx,
-            terminal: terminal,
-            display: display,
-            ref_test: ref_test,
+            pty,
+            tx,
+            rx,
+            terminal,
+            display,
+            ref_test,
         }
     }
 
@@ -252,7 +251,7 @@ impl<Io> EventLoop<Io>
     ) -> io::Result<()>
         where W: Write
     {
-        const MAX_READ: usize = 65_536;
+        const MAX_READ: usize = 0x1_0000;
         let mut processed = 0;
         let mut terminal = None;
 
@@ -351,7 +350,7 @@ impl<Io> EventLoop<Io>
     ) -> thread::JoinHandle<(EventLoop<Io>, State)> {
         thread::spawn_named("pty reader", move || {
             let mut state = state.unwrap_or_else(Default::default);
-            let mut buf = [0u8; 4096];
+            let mut buf = [0u8; 0x1000];
 
             let fd = self.pty.as_raw_fd();
             let fd = EventedFd(&fd);

@@ -5,23 +5,22 @@ A preservative fork of one of my new favorite new terminal emulators:
 
 ### Building
 
-On macOS `10.13.1`:
+On macOS `10.13.4`:
 
 ```sh
 git clone https://github.com/vvkmnn/vTerminal.git
 curl -sSf https://static.rust-lang.org/rustup.sh | sh
 cd vterminal
 git pull remote upstream
-cargo build --release
 make app
-cp -r target/release/osx/Alacritty.app /Applications/Alacritty.app
+cp -r target/release/osx/Alacritty.app /Applications/
 ```
-
-If all goes well, this should place a binary at `target/release/alacritty`.
 
 ### Setting
 
 `alacritty.yml`, required in any of the following paths:
+
+Alacritty looks for the configuration file at the following paths:
 
 1. `$XDG_CONFIG_HOME/alacritty/alacritty.yml`
 2. `$XDG_CONFIG_HOME/alacritty.yml`
