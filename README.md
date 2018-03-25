@@ -5,7 +5,7 @@ A preservative fork of one of my new favorite new terminal emulators:
 
 ### Building
 
-On macOS `10.13.4`:
+On macOS `10.13.1`:
 
 ```sh
 git clone https://github.com/vvkmnn/vTerminal.git
@@ -16,11 +16,25 @@ make app
 cp -r target/release/osx/Alacritty.app /Applications/
 ```
 
+## Manual
+
+Installing the manual page depends on `gzip`:
+
+```sh
+sudo mkdir -p /usr/local/share/man/man1
+gzip -c alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+```
+
+## Completions
+
+For zsh `5.4.2`:
+```
+sudo cp alacritty-completions.zsh /usr/share/zsh/functions/Completion/X/_alacritty
+```
+
 ### Setting
 
 `alacritty.yml`, required in any of the following paths:
-
-Alacritty looks for the configuration file at the following paths:
 
 1. `$XDG_CONFIG_HOME/alacritty/alacritty.yml`
 2. `$XDG_CONFIG_HOME/alacritty.yml`
